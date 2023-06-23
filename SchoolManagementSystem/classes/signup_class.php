@@ -2,11 +2,11 @@
 
 class Signup
 {
-    private $error = ""; //private variable za vracanje ako je napravljena greska prilikom registracije.
+    private $error = ""; 
     
-    public function evaluate($data) //$data ce biti tip array jer je $_POST koji prosledjujemo iz registracije tipa array.Zato dole i mozes da koristis foreach
+    public function evaluate($data) //$data will be of type array because $_POST that we pass from registration is of type array. That's why you can use foreach below
     {
-        foreach ($data as $key => $value) //radis foreach petlju da proveris svaki kljuc i njenu vrednost iz registracije
+        foreach ($data as $key => $value)
         {
             if(empty($value))
             {
@@ -67,8 +67,8 @@ class Signup
         }
         if($this->error == "")
         {
-            //bez greske je registracija
-            $this->create_user($data); // pozivamo funkciju create_user
+        
+            $this->create_user($data); // calling create_user function
         }
         else
         {
@@ -78,18 +78,18 @@ class Signup
 
     public function create_user($data)
     {
-        $first_name = ucfirst($data['first_name']); // stavlja da prvo slovo uvek bude Veliko
+        $first_name = ucfirst($data['first_name']); // setting first letter to be uppercase
         $last_name = ucfirst($data['last_name']);
         $username = $data['username'];
         $email = $data['email'];
         $password = $data['password'];
         $phone = $data['phone'];
         $date_of_birth = $data['date_of_birth'];
-        if($data['usertype'] == "") //ovo se ubacilo da bi mogao da koristis isti ovaj kod i za adminovu funkciju dodavanja korisnika
+        if($data['usertype'] == "")
         {
-            //jedina razlika obicne reg i adminovog dodavanja je sto admin moze da postavlja user type.Zato si ubacio ovu proveru z apostavljanja vrednosti usertype
-
-            //Na obicnoj registraciji nema mogucnost da se postavlja usertype tako da ce biti ucek user postavljena vrednost.
+            //The only difference between regular registration and admin's addition is that the admin can set the user type. 
+            //That's why you added this check for setting the usertype value.
+            //In regular registration, there is no option to set the usertype, so the value will always be set as user."
             $usertype = "User";
         }
         else
@@ -98,8 +98,8 @@ class Signup
         }
         
 
-        //pravimo nasu kreiranu funkciju za postavljanje random selekcije brojeva, kao sto je u asp.net postoji Guid ID
-        $userid = $this->create_userid(); //koristis $this-> jer je create_userid private funkcija
+        //We are creating our custom function for generating a random selection of numbers
+        $userid = $this->create_userid(); //using '$this->' because create_userid is a private function
 
 
         $query = "INSERT INTO users 
@@ -108,13 +108,13 @@ class Signup
         ('$userid', '$first_name', '$last_name', '$username', '$email', '$password', '$phone', '$date_of_birth', '$usertype')";
 
        
-        $DB = new Database(); //kreiramo instancu Database klase iz connect.php
-        $DB->save($query); // preko instance pozivamo metodu save iz Databse klase i prosledjujemo joj $query koji ona ocekuje u klasi Database
+        $DB = new Database(); //creating an instance of Database class
+        $DB->save($query); 
     }
 
     private function create_userid()
     {
-        $length = rand(4, 19); //random duzina koju ce php da izabere izmedju brojeva 4 i 19;
+        $length = rand(4, 19); 
         $number = "";
         for ($i=0; $i < $length; $i++)  
         {
