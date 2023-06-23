@@ -1,6 +1,6 @@
 <?php 
 
-session_start(); // ovo koristimo da bi mogli da koristimo global varijablu $_SESSION koja ce da sadrzi id ulogovanog korisnika
+session_start(); // this is used so we can acces to global variable $_SESSION
 
     include("classes/connect.php");
     include("classes/login_class.php");
