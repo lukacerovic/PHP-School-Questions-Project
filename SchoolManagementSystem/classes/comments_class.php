@@ -23,7 +23,7 @@ class Comments {
             $DB = new Database();
             $result = $DB->save($query);
             
-            // Vraćamo odgovor na AJAX zahtev
+            // Returning response from AJAX request
             echo "Comment added successfully!";
         }
     }
@@ -34,12 +34,12 @@ class Comments {
         $DB = new Database();
         $result = $DB->read($query);
         
-        // Vratite rezultat kao JSON
+        // Returning result as JSON format
         echo json_encode($result);
     }
     
     private function create_commentid() {
-        $length = rand(4, 19); // random duzina koju ce php da izabere izmedju brojeva 4 i 19;
+        $length = rand(4, 19); // random length that PHP will choose between numbers 4 and 19.
         $number = "";
         for ($i = 0; $i < $length; $i++) {
             $new_rand = rand(0, 9);
@@ -48,7 +48,7 @@ class Comments {
         return $number;
     }
 
-    // brisanje komentara
+    // deleting comments
     public function deleteComment($commentId) {
             
         $query = "DELETE FROM comments WHERE comment_id = $commentId LIMIT 1";
@@ -64,15 +64,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     if (isset($_GET["action"]) && $_GET["action"] == "getAllComments") {
         $comments = new Comments();
         $comments->getAllComments();
-        exit; // Prekid izvršavanja skripte nakon dobijanja komentara
+        exit; // Terminating script execution after receiving comments
     }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["action"]) && $_POST["action"] == "deleteComment") {
+        //check if the deleteComment Post method is called
         $comments = new Comments();
         $comments->deleteComment($_POST["commentId"]);
-        exit; // Prekid izvršavanja skripte nakon brisanja komentara
+        exit; // Terminating script execution after deleting comment
     } else {
         $comments = new Comments();
         $comments->addComment();
