@@ -5,7 +5,6 @@
     include("classes/login_class.php");
     include("classes/user_class.php");
 
-    // Provera da li je korisnik ulogovan
     if (isset($_SESSION['userid']) && is_numeric($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
         $login = new Login();
@@ -13,14 +12,9 @@
         $user_data = $login->check_login($id);
 
         if ($user_data) {
-            // Ako je sve u redu, nastavljamo sa prikazom
-            //instanciramo klasu User koju smo napravili da prikupi infromacije
-
             $user = new User();
             $users = $user->get_type_user();
-   
 
-            
             if(!$user_data || $user_data['usertype'] != 'Admin')
             {
                 header("Location: login.php");
@@ -37,7 +31,6 @@
         die;
     }
    
-
     $first_name = "";
     $last_name = "";
     $username = "";
@@ -45,13 +38,12 @@
     $phone = "";
     $date_of_birth = "";
     $usertype = "";
-        
     
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
        
-        $signup = new Signup(); // kreiranje instance za klasu Signup da bi joj pristupili
-        $result = $signup->evaluate($_POST); //metoda iz klase Signup
+        $signup = new Signup(); // creating an instance for class Signup
+        $result = $signup->evaluate($_POST); //accessing method evaluate in Signup class
         if($result != "")
         {
 
@@ -63,13 +55,14 @@
         else
         {
 
-            //ako je sve okej, radi se preusmeravanje
             header('Location: admin.php');
             die;
         }
-        //nakon post metode ako nije validna, ako na primer ima nekih polja koja su ostala prazna, post metoda se nece izvrsiti
-        //vratice korisnika da popuni polja ALI CE MU ZADRZATI vrednosti polja koje je uneo u prvom pokusaju.Dakle nece mu restartovati sve
-        //vec ce zadrzati unete vrednosti
+        //After the POST method, if it's not valid, for example, if there are some fields left empty, the POST method won't execute
+        //It will return the user to fill in the fields BUT IT WILL RETAIN the values of the fields entered in the first attempt.
+        //So, it won't reset everything for the user
+        //but will retain the entered values."
+        
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $username = $_POST['username'];
