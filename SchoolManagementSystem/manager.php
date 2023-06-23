@@ -14,7 +14,6 @@
         $result = $login->check_login($id);
     
         if ($result) {
-            // Ako je sve u redu, nastavljamo sa prikazom
             $user = new User();
             $user_data = $user->get_data($id);
            
@@ -126,33 +125,33 @@
     </div>
     <script>
 $(document).ready(function() {
-    // Klik na Send dugme za slanje komentara
+    // click on send button to start the script
     $(".user-list").on("click", ".comment-send-btn", function() {
-        var comment = $(this).prev(".comment-input").val(); // Uzimanje unetog komentara iz odgovarajućeg input polja
-        var questionId = $(this).data("question-id"); // Uzimanje ID-ja pitanja
+        var comment = $(this).prev(".comment-input").val(); // taking comment from right input field
+        var questionId = $(this).data("question-id"); // taking Id from right question on which user is commenting
         var senderUsername = "<?php echo $user_data['username']; ?>";
         console.log(questionId);
         console.log(comment);
-        // Sačuvajte referencu na trenutni element
+        // Save a reference to the current element
         var currentElement = $(this);
 
-        // Slanje AJAX zahteva za dodavanje komentara
+        // Sending AJAX request for adding comment 
         $.ajax({
             url: "classes/comments_class.php",
             method: "POST",
             data: { senderUsername: senderUsername, comment: comment, questionId: questionId },
            
             success: function(response) {
-                // Ispisujemo odgovor koji smo dobili od comments.php
+                // presenting response from comments.php
                 console.log(response);
 
-                // Uspesno dodat komentar, ažurirati prikaz komentara za trenutni element
+                //Comment successfully added, update the display of comments for the current element.
                 currentElement.closest(".user-list-item").next().find(".comments-list").append("<li>" + senderUsername + " said: " + comment + "</li>");
-                currentElement.prev(".comment-input").val(""); // Resetovanje input polja za unos komentara
+                currentElement.prev(".comment-input").val(""); // Restart input field (set it blank again)
                 location.reload();
             },
             error: function() {
-                alert("Došlo je do greške prilikom slanja komentara.");
+                alert("Request got an error.");
             }
         });
     });
@@ -163,44 +162,44 @@ $(document).ready(function() {
         url: "classes/comments_class.php",
         data: { action: "getAllComments" },
         success: function(response) {
-            // Parsiranje JSON odgovora u JavaScript objekat
+            // Parsing JSON response into a JavaScript object (changing data from JSON into JS)
             var comments = JSON.parse(response);
 
-            // Prikazivanje komentara na stranici za svaki post
+            // Showing comments foreach post
             $(".comments-section").each(function() {
                 var questionId = $(this).find("#comments-list").data("question-id");
 
-                // Filtriranje komentara za odgovarajući post
+                // Filtering comments for right posts
                 var postComments = comments.filter(function(comment) {
                     return comment.question_id == questionId;
                 });
 
-                // Prikazivanje komentara za odgovarajući post
+                // Showing (Displaying) comments for right posts
                 var commentsList = $(this).find("#comments-list");
-                commentsList.empty(); // Brisanje postojećih komentara
+                commentsList.empty(); // Deleting existing comments
                 postComments.forEach(function(comment) {
                     commentsList.append("<li class='py-3'>" + comment.sender_username + " : " + comment.comment_content + "<i class='bi bi-trash' data-comment-id='" + comment.comment_id + "' style='float:right;padding-right:10px;color:red;'></i>" + "</li>");
                 });
 
-                // Dodajte događaj klik na ikonu kante za brisanje komentara
+                // Creating click event on trash icon
                 commentsList.find("i.bi-trash").on("click", function() {
                     var commentId = $(this).data("comment-id");
 
-                    // Slanje AJAX zahteva za brisanje komentara
+                    // Sending AJAX request for deleting a comment
                     $.ajax({
                         url: "classes/comments_class.php",
                         method: "POST",
                         data: { action: "deleteComment", commentId: commentId },
                         success: function(response) {
-                            // Ispisujemo odgovor koji smo dobili od comments_class.php
+                            // Displaying response fromcomments_class.php
                             console.log(response);
 
-                            // Uklonite obrisani komentar iz liste
+                            // Removing deleted comment from the post
                             $(this).closest("li").remove();
                             location.reload();
                         },
                         error: function() {
-                            alert("Došlo je do greške prilikom brisanja komentara.");
+                            alert("Request got an error");
                         }
                     });
                 });
@@ -209,7 +208,7 @@ $(document).ready(function() {
     });
 }
 
-// Pozivajte funkciju za učitavanje komentara prilikom učitavanja stranice
+// "Call the function to load comments when the page is loaded.
 loadComments();
 
 
