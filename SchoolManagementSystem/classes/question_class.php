@@ -2,7 +2,7 @@
 
 class Question
 {
-    private $error = ""; // Privatna promenljiva za vraćanje greške prilikom registracije.
+    private $error = ""; // Private variable for collecting errors during registration
     
     public function evaluate($data)
     {
@@ -10,11 +10,11 @@ class Question
             if (empty($value)) {
                 $this->error .= $key . " is empty<br>"; 
             }
-            // Ovde mogu da se dodaju ostale validacije
+            // Add other validations......
         }
 
         if ($this->error == "") {
-            // Bez greške je registracija
+            
             $this->create_question($data);
         } else {
             return $this->error;
@@ -34,7 +34,7 @@ class Question
         $created_date = date('Y-m-d H:i:s');
         
         $list_of_users = implode(',', $data['list_of_users']);
-        // Kreiranje inicijalne liste $is_finished_by
+        // Creating dictionary for variable is_finished_by and adding default values of false foreach
         $is_finished_by = array();
         foreach ($data['list_of_users'] as $user) {
             $is_finished_by[$user] = false;
@@ -62,7 +62,7 @@ class Question
     }
     public function get_all_questions()
     {
-        $users = array(); // Prazan niz za čuvanje korisnika
+        $users = array(); // Empty array for collecting users
         $query = "SELECT * FROM questions";
         $DB = new Database();
         $result = $DB->read($query);
@@ -121,10 +121,10 @@ class Question
                 header("Location: user.php");
                 exit();
             } else {
-                return "Korisnik '$username' nije pronađen u listi korisnika za dato pitanje.";
+                return "User '$username' is not found as an assigned user for this question.";
             }
         } else {
-            return "Pitanje sa ID-jem '$question_id' nije pronađeno.";
+            return "Question with this Id '$question_id' is not found.";
         }
     }
 }
