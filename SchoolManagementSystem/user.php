@@ -14,11 +14,13 @@
         $result = $login->check_login($id);
     
         if ($result) {
-            // Ako je sve u redu, nastavljamo sa prikazom
+
             $user = new User();
             $user_data = $user->get_data($id);
             
-            //obican korisnik moze samo da vidi pitanja koja su namenjena za njega.Ne moze da vidi sva pitanja i ostale korisnike.Takodje ne moze da menja nista.
+            //Regular users can only see the questions intended for them. They cannot see all the questions or other users.
+            //Additionally, they cannot make any changes.
+            
             $question = new Question();
             $all_question = $question->get_all_questions_for_user($user_data['username']);
     
@@ -92,10 +94,10 @@
             </div>
             <div class="container p-5 h-75 col-12 bg-dark text-light d-flex justify-content-center align-items-center" style="border-radius:30px;">
                 <form method="get" action="filter.php" style="text-align: center; width: 100%;">
-                    <h2>Filtriraj rezultate</h2>
+                    <h2>Filter questions</h2>
                     <hr>
                     <div class="mb-3">
-                        <h3 class="py-3">Predmet</h3>
+                        <h3 class="py-3">Subject</h3>
                         <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                         <?php foreach ($all_question as $question) : ?>
                                 <label>
@@ -107,7 +109,7 @@
                     </div>
                     <hr>
                     <div class="mb-3">
-                        <h3 class="py-3">Prioritet</h3>
+                        <h3 class="py-3">Priority</h3>
                         <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                             <?php foreach ($all_question as $question) : ?>
                                 <label>
@@ -119,7 +121,7 @@
                     </div>
                     <hr>
                     <div class="mb-3">
-                        <h3 class="py-3">Rok Zavrsetka</h3>
+                        <h3 class="py-3">Date of Ending</h3>
                         <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                             <?php foreach ($all_question as $question) : ?>
                                 <label>
@@ -131,7 +133,7 @@
                     </div>
                     <hr>
                     <div class="mb-3">
-                        <h3 class="py-3">Izvrsioci</h3>
+                        <h3 class="py-3">Assigned Users</h3>
                         <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                         <?php foreach ($all_question as $question) : ?>
                                 <label>
@@ -199,17 +201,17 @@
 
     <script>
 $(document).ready(function() {
-    // Klik na Send dugme za slanje komentara
+    // Click on send button for sending comment
     $(".user-list").on("click", ".comment-send-btn", function() {
-        var comment = $(this).prev(".comment-input").val(); // Uzimanje unetog komentara iz odgovarajućeg input polja
-        var questionId = $(this).data("question-id"); // Uzimanje ID-ja pitanja
+        var comment = $(this).prev(".comment-input").val(); // Taking input value from right input tag
+        var questionId = $(this).data("question-id"); // Taking Id from right question
         var senderUsername = "<?php echo $user_data['username']; ?>";
         console.log(questionId);
         console.log(comment);
-        // Sačuvajte referencu na trenutni element
+        
         var currentElement = $(this);
 
-        // Slanje AJAX zahteva za dodavanje komentara
+        // Sending AJAX request for adding a comment
         $.ajax({
             url: "classes/comments_class.php",
             method: "POST",
@@ -219,13 +221,13 @@ $(document).ready(function() {
                 // Ispisujemo odgovor koji smo dobili od comments.php
                 console.log(response);
 
-                // Uspesno dodat komentar, ažurirati prikaz komentara za trenutni element
+                // Comment successfully added, update the display of comments for the current element.
                 currentElement.closest(".user-list-item").next().find(".comments-list").append("<li>" + senderUsername + " said: " + comment + "</li>");
-                currentElement.prev(".comment-input").val(""); // Resetovanje input polja za unos komentara
+                currentElement.prev(".comment-input").val(""); // Restarting input field (setting blank)
                 location.reload();
             },
             error: function() {
-                alert("Došlo je do greške prilikom slanja komentara.");
+                alert("Request got an error.");
             }
         });
     });
@@ -236,21 +238,21 @@ $(document).ready(function() {
         url: "classes/comments_class.php",
         data: { action: "getAllComments" },
         success: function(response) {
-            // Parsiranje JSON odgovora u JavaScript objekat
+            // Parsing JSON response into a JavaScript object. (changing data from JSON to JS)
             var comments = JSON.parse(response);
 
-            // Prikazivanje komentara na stranici za svaki post
+            //Showing comments foreach question
             $(".comments-section").each(function() {
                 var questionId = $(this).find("#comments-list").data("question-id");
 
-                // Filtriranje komentara za odgovarajući post
+                // Filtering right comments for right question
                 var postComments = comments.filter(function(comment) {
                     return comment.question_id == questionId;
                 });
 
-                // Prikazivanje komentara za odgovarajući post
+                // Showing (Displaying) right comments for right question
                 var commentsList = $(this).find("#comments-list");
-                commentsList.empty(); // Brisanje postojećih komentara
+                commentsList.empty(); // 
                 postComments.forEach(function(comment) {
                     commentsList.append("<li class='py-3'>" + comment.sender_username + " : " + comment.comment_content + "</li>");
                 });
@@ -261,7 +263,7 @@ $(document).ready(function() {
     });
 }
 
-// Pozivajte funkciju za učitavanje komentara prilikom učitavanja stranice
+//Parsing JSON response into a JavaScript object
 loadComments();
 
 
