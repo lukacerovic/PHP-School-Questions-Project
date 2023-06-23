@@ -1,5 +1,5 @@
 <?php
-// Povezivanje sa bazom podataka i ostale potrebne konfiguracije
+
 session_start();
 
     include("classes/connect.php");
@@ -8,8 +8,6 @@ session_start();
     include("classes/question_class.php");
     include("classes/filter_class.php");
 
-
-    // Provera da li je forma submitovana i da li su odabrani korisnici
     if (isset($_GET)) {
         
         $filter = new Filter();
@@ -35,7 +33,7 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-    <title>User Page</title>
+    <title>Filter Page</title>
     <style>
         .user-list {
             list-style-type: none;
@@ -66,7 +64,7 @@ session_start();
             <div class="col-12 mt-5">
                 <div class="content">
                     <h1>Welcome</h1>
-                    <h3>This is your filtered result</h3>
+                    <h3>These are your filtered results</h3>
                     <br>
                 </div>
             </div>
