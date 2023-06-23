@@ -7,7 +7,7 @@
     include("classes/edit_question_class.php");
 
     
-    // Provera da li je korisnik ulogovan
+    // Check if user is loged in
     if (isset($_SESSION['userid']) && is_numeric($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
         $login = new Login();
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     else
     {
 
-        //ako je sve okej, radi se preusmeravanje
+        //If its all alright, continue:
         header('Location: admin.php');
         die;
     }
