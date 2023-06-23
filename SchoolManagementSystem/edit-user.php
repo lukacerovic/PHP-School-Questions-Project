@@ -6,7 +6,7 @@
     include("classes/user_class.php");
     include("classes/edit_user_class.php");
     
-    // Provera da li je korisnik ulogovan
+    // Check if user is loged in
     if (isset($_SESSION['userid']) && is_numeric($_SESSION['userid'])) {
         $id = $_SESSION['userid'];
         $login = new Login();
@@ -14,8 +14,8 @@
         $user_data = $login->check_login($id);
 
         if ($user_data) {
-            // Ako je sve u redu, nastavljamo sa prikazom
-            //instanciramo klasu User koju smo napravili da prikupi infromacije
+            // Everything is good, procede,
+            // instantiate the User class that we created to gather information
 
             $user = new User();
             $user_info = $user->get_user_current_info($_GET['id']);
@@ -40,8 +40,8 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
         
-        $edit = new EditUser(); // kreiranje instance za klasu Signup da bi joj pristupili
-        $result = $edit->evaluate($_POST, $_GET['id']); //metoda iz klase Signup
+        $edit = new EditUser(); 
+        $result = $edit->evaluate($_POST, $_GET['id']);
         if($result != "")
         {
 
@@ -53,12 +53,10 @@
         else
         {
 
-            //ako je sve okej, radi se preusmeravanje
             header('Location: admin.php');
             die;
         }
 
-        
     }
    
 ?>
