@@ -5,16 +5,16 @@ class Filter
 {
     public function find_results($data)
     {
-        // Dobijanje odabranih korisnika iz checkboxova
+        // Getting selected users from checkboxes
         $selectedUsers = $data['list_of_users'] ?? [];
         $selectedPriority = $data['priority'] ?? [];
         $selectedCategory = $data['category'] ?? [];
         $selectedDates = $data['available_until'] ?? [];
 
-        // Formiranje upita za dohvatanje pitanja koja sadrže odabrane korisnike
+        // Forming a query to retrieve questions that contain selected users
         $query = "SELECT * FROM questions WHERE ";
 
-        // Dodavanje uslova za svakog odabranih korisnika
+        // Adding condition for filtered user
         if (!empty($selectedUsers)) {
             foreach ($selectedUsers as $user) {
                 
@@ -22,7 +22,7 @@ class Filter
             }
         }
 
-        // Dodavanje uslova za svaki odabrani prioritet
+        // Adding condition for filtered priority
         if (!empty($selectedPriority)) {
             foreach ($selectedPriority as $priority) {
            
@@ -30,7 +30,7 @@ class Filter
             }
         }
 
-        // Dodavanje uslova za svaku odabranu kategoriju
+        // Adding condition for filtered category
         if (!empty($selectedCategory)) {
             foreach ($selectedCategory as $category) {
            
@@ -38,7 +38,7 @@ class Filter
             }
         }
 
-        // Dodavanje uslova za svaki odabrani rok završetka
+        // Adding condition for filtered date of ending
         if (!empty($selectedDates)) {
             foreach ($selectedDates as $date) {
          
@@ -48,7 +48,7 @@ class Filter
 
 
         $users = array();
-        // Uklanjanje poslednjeg "OR" iz upita
+        // Removing last OR from statemant
         $query = rtrim($query, "OR ");
        
         $DB = new Database();
