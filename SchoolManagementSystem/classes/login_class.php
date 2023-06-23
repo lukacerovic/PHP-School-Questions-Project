@@ -22,7 +22,7 @@ class Login{
             if($password == $row['password']){
 
                 $_SESSION['userid'] = $row['userid'];
-                // Preusmeravanje na odgovarajuću stranicu na osnovu usertype
+                // Redirecting to the appropriate page based on usertype
                 if ($row['usertype'] == 'admin' or $row['usertype'] == 'Admin') {
                     header("Location: admin.php");
                     die;
@@ -47,7 +47,7 @@ class Login{
         
     }
 
-    //kreiramo metodu kojom cemo da proveravamo da li je korisnik ulogovan ili ne
+    //Creating method which will check if the user is loged in or not
     public function check_login($id){
         if(is_numeric($id)){
 
