@@ -11,8 +11,8 @@
         
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-        $signup = new Signup(); // kreiranje instance za klasu Signup da bi joj pristupili
-        $result = $signup->evaluate($_POST); //metoda iz klase Signup
+        $signup = new Signup(); 
+        $result = $signup->evaluate($_POST);
         if($result != "")
         {
 
@@ -24,13 +24,14 @@
         else
         {
 
-            //ako je sve okej, radi se preusmeravanje
             header('Location: login.php');
             die;
         }
-        //nakon post metode ako nije validna, ako na primer ima nekih polja koja su ostala prazna, post metoda se nece izvrsiti
-        //vratice korisnika da popuni polja ALI CE MU ZADRZATI vrednosti polja koje je uneo u prvom pokusaju.Dakle nece mu restartovati sve
-        //vec ce zadrzati unete vrednosti
+        //After the POST method, if it's not valid, for example, if there are some fields left empty, the POST method won't execute
+        //It will return the user to fill in the fields BUT IT WILL RETAIN the values of the fields entered in the first attempt.
+        //So, it won't reset everything for the user
+        //but will retain the entered values.
+        
         $first_name = $_POST['first_name'];
         $last_name = $_POST['last_name'];
         $username = $_POST['username'];
