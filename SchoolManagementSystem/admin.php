@@ -16,16 +16,6 @@ session_start();
     $question = new Question();
     $all_question = $question->get_all_questions();
 
-        
-
-// Dobijanje liste korisnika iz baze podataka
-//$users = array(); // Prazan niz za čuvanje korisnika
-//$query = "SELECT * FROM users";
-//$DB = new Database();
-//$result = $DB->read($query);
-//if ($result) {
-//    $users = $result;
-//}
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +73,6 @@ session_start();
 
 <body>
     <div class="col-md-12">
-            <!-- Glavni sadržaj stranice -->
         <div class="content text-center mt-3" style="margin-bottom:10vh;">
             <h1>Hi, <?php echo $user_data['username']; ?></h1>
             <h1>Welcome</h1>
@@ -96,10 +85,10 @@ session_start();
     </div>
     <div class="container p-5 h-75 col-12 bg-dark text-light d-flex justify-content-center align-items-center" style="border-radius:30px;">
         <form method="get" action="filter.php" style="text-align: center; width: 100%;">
-            <h2>Filtriraj rezultate</h2>
+            <h2>Filter questions</h2>
             <hr>
             <div class="mb-3">
-                <h3 class="py-3">Predmet</h3>
+                <h3 class="py-3">Subjects</h3>
                 <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                 <?php foreach ($all_question as $question) : ?>
                         <label>
@@ -111,7 +100,7 @@ session_start();
             </div>
             <hr>
             <div class="mb-3">
-                <h3 class="py-3">Prioritet</h3>
+                <h3 class="py-3">Priority</h3>
                 <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <?php foreach ($all_question as $question) : ?>
                         <label>
@@ -123,7 +112,7 @@ session_start();
             </div>
             <hr>
             <div class="mb-3">
-                <h3 class="py-3">Rok Zavrsetka</h3>
+                <h3 class="py-3">Date of Ending</h3>
                 <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                     <?php foreach ($all_question as $question) : ?>
                         <label>
@@ -135,7 +124,7 @@ session_start();
             </div>
             <hr>
             <div class="mb-3">
-                <h3 class="py-3">Izvrsioci</h3>
+                <h3 class="py-3">Assigned Students</h3>
                 <div class="filter" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
                 <?php foreach ($all_question as $question) : ?>
                         <label>
@@ -155,10 +144,8 @@ session_start();
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <!-- Sidebar sa listom korisnika -->
                 <div class="sidebar">
                     <h3>All Users</h3>
-                    
                     <span class="btn btn-primary mb-3" style="float:right;"><a style="text-decoration:none;color:white;font-weight:600;" href="new-user.php">Add New User</a><i class="bi bi-plus-circle ms-3"></i></span>
                     <ul class="user-list">
                         <?php foreach ($all_users as $user) : ?>
